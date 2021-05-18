@@ -49,6 +49,6 @@ mysql.server status  # ステータス確認
 
 通信制限量の確認（デフォルトは16MB？）
 ```
-show variables like 'max_allowed_packet';
+SHOW VARIABLES LIKE 'max_allowed_packet';
 ```
-変更するには、設定ファイルに`max_allowed_packet = 64M`を追加する。（mysql --helpで設定ファイルの場所が分かるので、そこでインクルードしてるファイルを見て該当箇所を書き換える）
+変更するには、設定ファイルに`max_allowed_packet = 64M`等を追加する。（`mysql --help`で設定ファイルの場所が分かるので、そこでインクルードしてるファイルを見て該当箇所を書き換える。`/etc/mysql/conf.d/mysqldump.cnf`など？）

@@ -17,20 +17,27 @@ Hello git pages.
 ## データベース・SQL
 DBMSはMySQL派生のMariaDBを使用しています。MySQLとはあまり変わらないと思います。
 
+準備とDB操作
 - [環境設定（MariaDBのインストールと起動）](sql/mariadb_install.md)
 - [DBサーバーへの接続とSQLの実行方法](sql/execute_sql.md)
-
 - [DBユーザーの管理](sql/user.md)
 - [データベースの操作](sql/database.md)
+
+テーブルの管理と構造
 - [テーブルの操作](sql/table.md)
-- [レコード（行）の追加・編集・削除](sql/record.md)
-- [テーブルからデータを取得（SELECT）](sql/select.md)
-
-- [外部キー制約、check制約](sql/constraint.md)
 - [インデックス（キー）](sql/sql_index.md)
+- [外部キー制約、check制約](sql/constraint.md)
 
+データの書き換え
+- [レコード（行）の追加・編集・削除](sql/record.md)
+- [csvファイルのインポート(LOAD DATA INFILE)](sql/csv_import.md)
 
+データの取得
+- [テーブルからデータを取得（SELECT）](sql/select.md)
+- [テーブルの結合（JOIN）](sql/join.md)
 
+その他
+- [MySQLサンプルデータ](sql/sample_data.md)
 
 
 ## その他

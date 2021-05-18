@@ -12,6 +12,7 @@
 - `warning = TRUE`: Warningを表示するか
 - `error = TRUE`: Errorを表示するか
 - `message = TRUE`: message関数の結果を表示するか（パッケージ読み込み時など）
+- `warning = TRUE`: プロンプトの文字(例：>)をコード実行結果に追加するか
 
 - `fig.width = 7`: 図の幅
 - `fig.height = 7`: 図の高さ
@@ -21,20 +22,15 @@
 
 ## グローバル設定
 
-初めに`knitr::opts_chunk$set()`で指定する
+`knitr::opts_chunk$set`で設定
+
+例）コード部分を表示しない＆メッセージを表示しない場合
 `````r
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  prompt  = TRUE,
+  echo = FALSE,
   message = FALSE
 )
-```
-`````
-
-例）コード部分を表示せず結果だけ表示するとき
-`````r
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
 ```
 `````
 

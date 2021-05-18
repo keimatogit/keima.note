@@ -1,7 +1,6 @@
-# データベースを使用する(MariaDB)
+# データベースを使用する
 
-- pandas.DataFrameの`read_sql`と `to_sql`が使いやすい。Mariadb connectorで接続した場合、read_sqlはできたがto_sqlはできなかったので注意。
-- sqlalchemyのcreate_engineでの接続では、read_sql、to_sqlとも使用できた。
+- pandas.DataFrameの`read_sql`と `to_sql`が使いやすい。sqlalchemy + mysql-connector-pythonでの接続はどちらも使用できたが、mariadbでの接続ではto_sqlが実行できなかったので注意。
 - データフレームのインポートでは、mariadbのexacutemanyは速いけど使いにくい。to_sqlは使いやすいけどやや遅い（RのRMariaDBのdbWriteTableより遅い）。どうしても速くしたいのでなければto_sqlが良い。
 
 ----
@@ -9,14 +8,33 @@ TOC
 <!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=6 orderedList=false} -->
 <!-- code_chunk_output -->
 
-- [mariadbライブラリを使う](#mariadbライブラリを使う)
-- [sqlalchemyで接続してpandasのread_sql/to_sqlを使う](#sqlalchemyで接続してpandasのread_sqlto_sqlを使う)
-- [pandas.DataFrame.to_sqlの挙動について](#pandasdataframeto_sqlの挙動について)
+- [sqlalchemy + mysql-connector-pythonで接続](#sqlalchemy-mysql-connector-pythonで接続)
+- [mariadbライブラリで接続](#mariadbライブラリで接続)
+- [DataFrame.to_sqlの挙動について](#dataframeto_sqlの挙動について)
 
 <!-- /code_chunk_output -->
 
 
-## mariadbライブラリを使う
+## sqlalchemy + mysql-connector-pythonで接続
+sqlalchemy、mysql-connector-pythonライブラリが必要
+
+```python
+
+from sqlalchemy import create_engine
+import pandas as pd
+
+engine = create_engine('mysql+mysqlconnector://user_name:password@host/database_name')
+
+# read_sql(query結果をデータフレームで取得)
+query = 'SELECT * FROM table_name'
+df = pd.read_sql(query, engine)
+
+# to_sql(データフレームをDBにインポート)
+# if_exists{‘fail’, ‘replace’, ‘append’}, default ‘fail’
+df.to_sql('table_name', engine, index=False, if_exists='append')
+```
+
+## mariadbライブラリで接続
 [How to connect Python programs to MariaDB](https://mariadb.com/ja/resources/blog/how-to-connect-python-programs-to-mariadb/)
 
 まずはDBサーバーに接続
@@ -90,28 +108,8 @@ conn.commit()
 conn.close()
 ```
 
+## DataFrame.to_sqlの挙動について
 
-## sqlalchemyで接続してpandasのread_sql/to_sqlを使う
-
-```python
-
-from sqlalchemy import create_engine
-import pandas as pd
-
-engine = create_engine('mysql+mysqlconnector://user_name:password@host/database_name')
-
-# read_sql(query結果をデータフレームで取得)
-query = 'SELECT * FROM table_name'
-df = pd.read_sql(query, engine)
-
-# to_sql(データフレームをDBにインポート)
-# if_exists{‘fail’, ‘replace’, ‘append’}, default ‘fail’
-df.to_sql('table_name', engine, index=False, if_exists='append')
-```
-
-
-## pandas.DataFrame.to_sqlの挙動について
-
-- データフレームのカラム名に、DB側テーブルのフィールド名にないものがある場合、エラーが出てストップした。
+- データフレームのカラム名に、DB側テーブルのフィールド名にないものがある場合、エラーが出て読み込まれなかった。
 - DB側テーブルのフィールド名に、データフレームのカラム名にないものがある場合、そのフィールドはNULL（またはデフォルト値）が入力された。
-- DBテーブルの制約（check制約、FK制約など）を満たさない行が1行でもあると、全部インポートされなかった。
+- DBテーブルの制約（check制約、FK制約など）を満たさない行が1行でもあると、データフレーム全てインポートされなかった。

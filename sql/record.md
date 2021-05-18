@@ -5,7 +5,7 @@
 <!-- code_chunk_output -->
 
 - [追加（INSERT INTO）](#追加insert-into)
-- [編集（UPDATE ~ SET）](#編集update-~-set)
+- [編集（UPDATE ... SET）](#編集update-set)
 - [削除（DELETE FROM）](#削除delete-from)
 
 <!-- /code_chunk_output -->
@@ -19,7 +19,7 @@
 INSERT INTO table_name [(column1, column2, ...)] VALUES (value1, value2, ...);
 ```
 
-SELECT結果を追加
+別テーブルのSELECT結果を追加
 ```sql
 INSERT INTO table_name [(column1, column2, ...)]
   SELECT column1_2, column2_2, ...
@@ -27,7 +27,7 @@ INSERT INTO table_name [(column1, column2, ...)]
   WHERE column1_2 > 100;
 ```
 
-## 編集（UPDATE ~ SET）
+## 編集（UPDATE ... SET）
 
 全部の行の値を変更
 ```sql
