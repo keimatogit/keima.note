@@ -1,6 +1,6 @@
-# MySQLサンプルデータ
+# MySQLサンプルデータの使い方
 
-[MySQLサンプルデータ](https://dev.mysql.com/doc/index-other.html)
+こちらからダウンロードできます：[MySQLサンプルデータ](https://dev.mysql.com/doc/index-other.html)
 
 解答して読み込むと使える
 ```shell

@@ -7,37 +7,38 @@ html:
   toc: true
 ---
 
-# WindowsでのLinux環境構築（Ubuntu）
+# WindowsにUbuntuをインストールして環境構築
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=6 orderedList=false} -->
 <!-- code_chunk_output -->
 
 - [WSL2とUbuntuのインストール](#wsl2とubuntuのインストール)
-- [ソフトのインストール＆アップデート](#ソフトのインストールアップデート)
 - [Windows terminalを使う](#windows-terminalを使う)
+- [aptコマンドでのソフト管理](#aptコマンドでのソフト管理)
 - [マウントについて](#マウントについて)
   - [サーバーのマウント](#サーバーのマウント)
   - [Googleドライブのマウント](#googleドライブのマウント)
 - [python環境](#python環境)
-    - [jupyter notebook](#jupyter-notebook)
-      - [インストール](#インストール)
-      - [デザイン調整](#デザイン調整)
-      - [おすすめ拡張機能](#おすすめ拡張機能)
-    - [ライブラリ](#ライブラリ)
+  - [pipのインストール](#pipのインストール)
+  - [jupyter notebook](#jupyter-notebook)
+    - [インストール](#インストール)
+    - [デザイン調整](#デザイン調整)
+    - [おすすめ拡張機能](#おすすめ拡張機能)
+  - [ライブラリ](#ライブラリ)
 - [R環境](#r環境)
   - [R](#r)
   - [Rstudio Server](#rstudio-server)
 
 <!-- /code_chunk_output -->
 
-注）文章内では`apt`と`apt-get`があるけど、基本的にaptを使用するのが良いらしい。
+メモ）`apt`と`apt-get`があるけど、基本的にaptを使用するのが良いらしい。
 
 ## WSL2とUbuntuのインストール
 参考：[Windows 10 用 Windows Subsystem for Linux のインストール ガイド](https://docs.microsoft.com/ja-jp/windows/wsl/wsl2-kernel)
 
 1. プラグラムと機能 -> Windowsの機能の有効化または無効化で「Linux用Windowsサブシステム」「仮想マシン プラットフォーム」を有効にしてPCを再起動
 
-2. Microsoft storeからUbuntu(LTSの最新)をインストール。インストール場所のデフォルトは`C:\Users\[ユーザー名]\AppData\Local\Packages`。
+2. Microsoft storeからUbuntu(LTSの最新)をインストール。インストール場所のデフォルトは`C:\Users\your_user_name\AppData\Local\Packages`。
 
 3. [Windows Subsystem for Linux インストール ガイド](https://docs.microsoft.com/ja-jp/windows/wsl/wsl2-kernel)内のリンクからWSL2をダウンロードしてインストール
 
@@ -47,26 +48,6 @@ wsl --list --verbose             # 現在のバージョン確認
 wsl --set-default-version 2      # WSL2をデフォルトに設定
 wsl --set-version Ubuntu-20.04 2 # 現在のubuntuのバージョンをWSL2に変更
 ```
-
-
-## ソフトのインストール＆アップデート
-
-参考：[aptコマンドチートシート](https://qiita.com/SUZUKI_Masaya/items/1fd9489e631c78e5b007)
-
-ubuntuをインストールしたら、起動してaptコマンドのパッケージ一覧とパッケージ更新をしておく
-```
-sudo apt update # パッケージ一覧の更新
-sudo apt upgrade # パッケージの更新
-```
-インストールする時
-```
-sudo apt update # まずはパッケージ一覧を更新
-sudo apt search [パッケージ名] # パッケージを検索(部分一致)
-sudo apt install [パッケージ名] # インストール
-```
-
-
-
 
 ## Windows terminalを使う
 
@@ -84,6 +65,33 @@ settings.jsonの書き方
 
 
 
+## aptコマンドでのソフト管理
+
+参考：[aptコマンドチートシート](https://qiita.com/SUZUKI_Masaya/items/1fd9489e631c78e5b007)
+
+ubuntuをインストールしたら、起動して初めにパッケージ一覧の更新と入っているパッケージのアップデートをしておく
+```
+sudo apt update # パッケージ一覧の更新
+sudo apt upgrade # パッケージのアップデート
+```
+インストール
+```
+sudo apt update # インストール前にパッケージ一覧を更新
+sudo apt search package_name # パッケージを検索(部分一致)
+sudo apt install package_name1 package_name2 package_name3 # インストール（複数可）
+```
+アップデート
+```
+sudo apt upgrade
+```
+
+アンインストール
+```
+sudo apt remove package_name
+sudo apt --purge remove package_name # 依存関係があるパッケージを含めて完全に削除
+```
+
+
 ## マウントについて
 
 ローカルドライブは `/mnt/`  に自動的にマウントされる。
@@ -96,7 +104,7 @@ settings.jsonの書き方
 sudo mkdir /mnt/mount_folder
 
 # マウント（-o ro：読み込み専用でマウント）
-sudo mount -o ro -t drvfs '\\192.168.1.xx\xxx\xxx' /mnt/mount_folder
+sudo mount [-o ro] -t drvfs '\\192.168.1.xx\xxx\xxx' /mnt/mount_folder
 
 # マウント解除（必要なら）
 sudo umount /mnt/mount_folder
@@ -127,6 +135,7 @@ fusermount -u ~/GoogleDrive
 GUIブラウザがないときの認証
 [Headless Usage & Authorization](https://github.com/astrada/google-drive-ocamlfuse/wiki/Headless-Usage-&-Authorization)
 [sshごしにgoogle-drive-ocamlfuseのOAuth認証を行う方法](http://moguno.hatenablog.jp/entry/2016/03/24/010502)
+Windows terminalからはできなかったので、Ubuntu本体から起動して実行しましょう。
 ```
 echo $'#!/bin/sh\necho $* > /dev/stderr' > xdg-open
 chmod 755 xdg-open
@@ -136,14 +145,19 @@ PATH=`pwd`:$PATH google-drive-ocamlfuse
 
 ## python環境
 
-pipのインストール
+### pipのインストール
 ```
 sudo apt install python3-pip
 ```
+`pip3 install`でインストールしようとすると/home/user_name/.local/binにパスを通すよう言われるので、.bashrcに以下を追加しておく。
+```
+export PATH=$PATH:/home/user_name/.local/bin
+```
 
-#### jupyter notebook
 
-##### インストール
+### jupyter notebook
+
+#### インストール
 参考：[WSL2(ubuntu: 20.04)で Jupyter notebook インストールメモ](https://zenn.dev/akiyuu/articles/e6a8135858a26f2e5681)
 ```
 sudo apt update
@@ -154,7 +168,8 @@ jupyter --version # 確認
 `jupyter notebook --no-browser` で表示されるコピペ用URLをWindowsのウェブブラウザに貼り付ければ使用できる。
 
 
-##### デザイン調整
+
+#### デザイン調整
 
 ```
 # jupyterthemesをインストール
@@ -166,7 +181,7 @@ jt -t oceans16 -ofs 11 -T -N
 ```
 フォントファミリーはchromの設定->デザイン->フォントをカスタマイズ->固定幅フォント欄で変えられる。
 
-##### おすすめ拡張機能
+#### おすすめ拡張機能
 
 ToC2：サイドバーにTOCを表示できる
 ```
@@ -177,32 +192,25 @@ jupyter nbextensions_configurator enable --user
 ```
 
 
-#### ライブラリ
+### ライブラリ
 
 必要な物をpip3でインストールする。
-- argparse
-- mariadb
-- sys
-- sqlalchemy
-- mysql-connector-python
 - pandas
 - numpy
-- random
+- sqlalchemy
+- mysql-connector-python
 など。
 
-以下、インストールでちょっともたついたもの
+```
+pip3 install pandas numpy sqlalchemy mysql-connector-python
+```
 
-pandas
+ちょっともたついたmariadbパッケージのインストール
+（参考：[Problem with pip install mariadb - mariadb_config not found](https://stackoverflow.com/questions/63027020/problem-with-pip-install-mariadb-mariadb-config-not-found)）
 ```
-pip3 install pandas
-
-# /home/matsumoto/.local/binにパスを通せと言われたので通した（~/.profileに書き込み）
-```
-mariadb  （参考：[Problem with pip install mariadb - mariadb_config not found](https://stackoverflow.com/questions/63027020/problem-with-pip-install-mariadb-mariadb-config-not-found)）
-```
-> sudo apt-get update -y # これと  
-> sudo apt-get install -y libmariadb-dev # これをを実行してから  
-> pip3 install mariadb
+sudo apt-get update -y # これと  
+sudo apt-get install -y libmariadb-dev # これをを実行してから  
+pip3 install mariadb
 ```
 
 

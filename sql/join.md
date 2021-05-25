@@ -6,10 +6,10 @@ USAGE:
 ```sql
 SELECT column1, column2, ...
   FROM table1
-  LEFT JOIN table2
-  ON conditional_expr -- INNER JOIN, RIGHT JOINも可
+  LEFT JOIN table2 -- INNER JOIN, RIGHT JOINも可
+  ON conditional_expr
   ```
-フィールド名が重複している場合は、`table1.column1` のようにテーブルを特定して指定する。
+テーブル間でフィールド名に重複がある場合は、`table1.column1` のようにテーブル名を明示して指定する。
 
 
 
