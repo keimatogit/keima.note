@@ -9,15 +9,14 @@
 - [ipywidgetsで動的グラフを作る](python/ipywidgets.md)
 
 ## R
-- [データベースを使用する（MariaDB）](R/database.md)
+- [オブジェクトのデータ型と内部構造の確認(typeof, mode, class, str)](R/data_structure.md)
 - [mutateでも使える条件分岐（if_else, case_when, recode, (factor)）](R/mutate2.md)
 - [factor型について](R/factor.md)
 - [パッケージの場所（.libPaths()）](R/libPaths.md)
 - [renvを使用したパッケージ管理](R/renv.md)
 - [パッケージの作り方](R/make_package.md)
-- [[Rmarkdown] 準備](R/rmd_prepare.md)
-- [[Rmarkdown] YAMLヘッダー](R/rmd_yaml.md)
-- [[Rmarkdown] chunk options](R/rmd_chunk.md)
+- [Rmarkdownの使い方](R/rmarkdown.md)
+- [データベースを使用する（MariaDB）](R/database.md)
 
 
 ## データベース・SQL
