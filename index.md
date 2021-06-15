@@ -51,6 +51,7 @@ DBMSはMySQL派生のMariaDBを使用しています。MySQLとはあまり変�
 - [コマンドラインでのプログラム実行時に引数を扱う（python, R, shell）](commandargs.md)
 - [githubの使い方](github.md)
 - [Guthub Pagesの使い方](github_pages.md)
+- [conda](conda.md)
 - [singularityの使い方](github.md)
 - [WindowsにUbuntuをインストールして環境構築](ubuntu_setup.md)
 - [ssh接続でホスト名を登録](ssh_hostname.md)
