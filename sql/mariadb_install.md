@@ -51,4 +51,4 @@ mysql.server status  # ステータス確認
 ```
 SHOW VARIABLES LIKE 'max_allowed_packet';
 ```
-変更するには、設定ファイルに`max_allowed_packet = 64M`等を追加する。（`mysql --help`で設定ファイルの場所が分かるので、そこでインクルードしてるファイルを見て該当箇所を書き換える。`/etc/mysql/conf.d/mysqldump.cnf`など？）
+変更するには、設定ファイルに`max_allowed_packet = 64M`等を追加する。（`mysql --help`で設定ファイルの場所が分かるので、そこでインクルードしてるファイルを見て該当箇所を書き換える。`/etc/mysql/conf.d/mysqldump.cnf`など？）それかユーザー用設定フォルダにファイルを差s区政して書き込む`~/.my.cnf/my_mysql_setting.cnf`など。

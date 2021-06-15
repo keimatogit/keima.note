@@ -28,6 +28,7 @@ html:
 - [R環境](#r環境)
   - [R](#r)
   - [Rstudio Server](#rstudio-server)
+- [MariaDB](#mariadb)
 
 <!-- /code_chunk_output -->
 
@@ -250,3 +251,14 @@ sudo gdebi rstudio-server-1.4.1103-amd64.deb
 sudo rstudio-server start
 ```
 windowsのブラウザで `http://localhost:8787` にアクセスすると使用できる。ここで聞かれるユーザー名とパスワードはubuntuのもの。
+
+## MariaDB
+(https://mariadb.com/kb/en/mariadb-package-repository-setup-and-usage/)
+```
+sudo apt install apt-transport-https
+curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash
+
+
+sudo apt install mariadb-server
+sudo mysql_secure_installation
+```

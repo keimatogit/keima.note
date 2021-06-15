@@ -11,6 +11,8 @@
 ## R
 - [オブジェクトのデータ型と内部構造の確認(typeof, mode, class, str)](R/data_structure.md)
 - [mutateでも使える条件分岐（if_else, case_when, recode, (factor)）](R/mutate2.md)
+- [chop and unchop]()
+- [nest and unnest]()
 - [factor型について](R/factor.md)
 - [パッケージの場所（.libPaths()）](R/libPaths.md)
 - [renvを使用したパッケージ管理](R/renv.md)
